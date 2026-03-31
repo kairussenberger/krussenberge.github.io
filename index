@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Name</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+    }
+    h1, h2 { margin-bottom: 0.3em; }
+    .section { margin-top: 2em; }
+    a { text-decoration: none; }
+  </style>
+</head>
+<body>
+  <h1>Your Name</h1>
+  <p>Short bio: I am a student/researcher interested in ...</p>
+
+  <div class="section">
+    <h2>Research</h2>
+    <p>Brief description of your research interests and current projects.</p>
+  </div>
+
+  <div class="section">
+    <h2>Publications / Projects</h2>
+    <ul>
+      <li>Project or paper 1</li>
+      <li>Project or paper 2</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Contact</h2>
+    <p>Email: yourname@example.com</p>
+    <p>GitHub: <a href="https://github.com/yourusername">github.com/yourusername</a></p>
+  </div>
+</body>
+</html>
