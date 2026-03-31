@@ -239,14 +239,14 @@ class Particle {
     draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(197, 5, 12, 0.18)";
+        ctx.fillStyle = "rgba(197, 5, 12, 0.25)";
         ctx.fill();
     }
 }
 
 function initParticles() {
     particles = [];
-    const count = Math.floor((canvas.width * canvas.height) / 9000);
+    const count = Math.floor((canvas.width * canvas.height) / 8000);
 
     for (let i = 0; i < count; i++) {
         particles.push(new Particle());
