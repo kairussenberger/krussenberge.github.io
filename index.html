@@ -50,10 +50,28 @@ a:hover{
     margin-bottom: 12px;
 }
 
+#particle-bg{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+body{
+    background: #ffffff;
+    position: relative;
+    overflow-x: hidden;
+}
+
 </style>
 </head>
 
 <body>
+
+<canvas id="particle-bg"></canvas>
 
 <h1>Kai Russenberger</h1>
 
@@ -128,8 +146,7 @@ Coming Soon!
 <h2>Contact</h2>
 
 <p>
-Email: krussenberge@student.ethz.ch
-</p>
+Email: krussenberge@student.ethz.ch<br>
 Mobile: +41 76 478 28 45
 </p>
 
@@ -151,6 +168,110 @@ Mobile: +41 76 478 28 45
 </p>
 
 </div>
+
+<script>
+const canvas = document.getElementById("particle-bg");
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+let mouse = {
+    x: null,
+    y: null,
+    radius: 120
+};
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+window.addEventListener("mousemove", function(e) {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
+
+window.addEventListener("mouseleave", function() {
+    mouse.x = null;
+    mouse.y = null;
+});
+
+class Particle {
+    constructor() {
+        this.baseX = Math.random() * canvas.width;
+        this.baseY = Math.random() * canvas.height;
+        this.x = this.baseX;
+        this.y = this.baseY;
+        this.vx = 0;
+        this.vy = 0;
+        this.size = Math.random() * 2 + 0.8;
+    }
+
+    update() {
+        if (mouse.x !== null && mouse.y !== null) {
+            let dx = this.x - mouse.x;
+            let dy = this.y - mouse.y;
+            let dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < mouse.radius && dist > 0) {
+                let force = (mouse.radius - dist) / mouse.radius;
+                let angle = Math.atan2(dy, dx);
+                this.vx += Math.cos(angle) * force * 0.8;
+                this.vy += Math.sin(angle) * force * 0.8;
+            }
+        }
+
+        let returnForceX = (this.baseX - this.x) * 0.01;
+        let returnForceY = (this.baseY - this.y) * 0.01;
+
+        this.vx += returnForceX;
+        this.vy += returnForceY;
+
+        this.vx *= 0.92;
+        this.vy *= 0.92;
+
+        this.x += this.vx;
+        this.y += this.vy;
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(197, 5, 12, 0.18)";
+        ctx.fill();
+    }
+}
+
+function initParticles() {
+    particles = [];
+    const count = Math.floor((canvas.width * canvas.height) / 9000);
+
+    for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (const p of particles) {
+        p.update();
+        p.draw();
+    }
+
+    requestAnimationFrame(animate);
+}
+
+initParticles();
+animate();
+
+window.addEventListener("resize", () => {
+    resizeCanvas();
+    initParticles();
+});
+</script>
 
 </body>
 </html>
